@@ -22,7 +22,6 @@ public class HomePageFunctionalTest {
 
     @Value("${app.baseUrl:http://localhost}")
     private String testBaseUrl;
-
     private String baseUrl;
 
     @BeforeEach
