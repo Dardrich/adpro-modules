@@ -103,7 +103,7 @@ public class ProductRepositoryTest {
         product.setProductQuantity(10);
         productRepository.create(product);
 
-        productRepository.delete(product);
+        productRepository.delete(product.getProductId());
         Iterator<Product> productIterator = productRepository.findAll();
         assertFalse(productIterator.hasNext());
     }
