@@ -55,7 +55,7 @@ public class DeleteProductFunctionalTest {
         Alert deleteConfirmationAlert = driver.switchTo().alert();
         deleteConfirmationAlert.accept();
 
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
 
         WebElement productTable = driver.findElement(By.tagName("table"));
         String pageSource = productTable.getText();
