@@ -107,4 +107,39 @@ public class ProductRepositoryTest {
         Iterator<Product> productIterator = productRepository.findAll();
         assertFalse(productIterator.hasNext());
     }
+
+    @Test
+    void testEditNotFound(){
+        Product product = new Product();
+        product.setProductId("keb558e9f-1c39-460e-8860-71af6af63bd6");
+        productRepository.create(product);
+
+        Product newProduct = new Product();
+        assertFalse(productRepository.edit(newProduct));
+    }
+
+    @Test
+    void testDeleteNotFound(){
+        Product product = new Product();
+        product.setProductId("keb558e9f-1c39-460e-8860-71af6af63bd6");
+        productRepository.create(product);
+
+        assertFalse(productRepository.delete("id-salah"));
+    }
+
+    @Test
+    void testFindByIdFound(){
+        Product product = new Product();
+        product.setProductId("eb558e9f-1c39-460e-8860-71af6af63bd6");
+        productRepository.create(product);
+        assertEquals(product, productRepository.findById("eb558e9f-1c39-460e-8860-71af6af63bd6"));
+    }
+
+    @Test
+    void testFindByIdNotFound(){
+        Product product = new Product();
+        product.setProductId("eb558e9f-1c39-460e-8860-71af6af63bd6");
+        productRepository.create(product);
+        assertNotEquals(product, productRepository.findById("id-salah"));
+    }
 }

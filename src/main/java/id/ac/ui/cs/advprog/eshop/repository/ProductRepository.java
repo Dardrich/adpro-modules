@@ -23,21 +23,22 @@ public class ProductRepository {
         return product;
     }
 
-    public void edit(Product editedProduct) {
+    public boolean edit(Product editedProduct) {
         for (int i = 0; i < productData.size(); i++) {
             Product product = productData.get(i);
             if (product.getProductId().equals(editedProduct.getProductId())) {
                 productData.set(i, editedProduct);
-                break;
+                return true;
             }
         }
+        return false;
     }
 
     public Iterator<Product> findAll() {
         return productData.iterator();
     }
 
-    public void delete(String deletedProductId) {
-        productData.removeIf(product -> product.getProductId().equals(deletedProductId));
+    public boolean delete(String deletedProductId) {
+        return productData.removeIf(product -> product.getProductId().equals(deletedProductId));
     }
 }
