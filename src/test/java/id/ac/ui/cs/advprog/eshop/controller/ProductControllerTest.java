@@ -87,7 +87,7 @@ public class ProductControllerTest {
         String productId = "eb558e9f-1c39-460e-8860-71af6af63bd6";
 
         MockHttpServletResponse response = mvc.perform(
-                post("/product/edit")
+                post("/product/editg")
                         .contentType("application/json")
                         .content(json != null ? json : "")
         ).andReturn().getResponse();
