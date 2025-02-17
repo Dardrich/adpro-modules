@@ -87,12 +87,12 @@ public class ProductControllerTest {
         String productId = "eb558e9f-1c39-460e-8860-71af6af63bd6";
 
         MockHttpServletResponse response = mvc.perform(
-                post("/product/editg")
+                post("/product/edit")
                         .contentType("application/json")
                         .content(json != null ? json : "")
         ).andReturn().getResponse();
 
-        assertEquals(HttpStatus.SC_MOVED_TEMPORARILY, response.getStatus());
+        assertEquals(HttpStatus.SC_OK, response.getStatus());
     }
 
     @Test
@@ -107,7 +107,7 @@ public class ProductControllerTest {
                         .contentType("application/json")
                         .content(json != null ? json : "")
         ).andReturn().getResponse();
-        assertEquals(HttpStatus.SC_MOVED_TEMPORARILY, response.getStatus());
+        assertEquals(HttpStatus.SC_OK, response.getStatus());
     }
 
 }

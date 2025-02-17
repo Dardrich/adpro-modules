@@ -8,6 +8,6 @@ public interface ProductService {
     List<Product> findAll();
     Product findById(String productId);
     void edit(Product editedProduct);
-    void delete(String productId);
+    boolean delete(String productId);
 
 }

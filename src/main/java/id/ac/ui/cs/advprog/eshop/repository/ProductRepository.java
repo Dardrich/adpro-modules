@@ -9,7 +9,7 @@ import java.util.Iterator;
 
 @Repository
 public class ProductRepository {
-    private List<Product> productData = new ArrayList<>();
+    private final List<Product> productData = new ArrayList<>();
 
     public Product findById(String productId) {
         return productData.stream()
@@ -23,16 +23,35 @@ public class ProductRepository {
         return product;
     }
 
-    public boolean edit(Product editedProduct) {
-        for (int i = 0; i < productData.size(); i++) {
-            Product product = productData.get(i);
-            if (product.getProductId().equals(editedProduct.getProductId())) {
-                productData.set(i, editedProduct);
-                return true;
-            }
+//    public boolean edit(Product editedProduct) {
+//        for (int i = 0; i < productData.size(); i++) {
+//            Product product = productData.get(i);
+//            if (product.getProductId().equals(editedProduct.getProductId())) {
+//                productData.set(i, editedProduct);
+//                return true;
+//            }
+//        }
+//        return false;
+//    }
+
+    public boolean edit(Product productUpdate) {
+//        for (Product product : productData){
+//            if(product.getProductId().equals(productUpdate.getProductId())){
+//                product.setProductName(productUpdate.getProductName());
+//                product.setProductQuantity(productUpdate.getProductQuantity());
+//                return true;
+//            }
+//        }
+//        return false;
+        Product existingProduct = findById(productUpdate.getProductId());
+        if (existingProduct != null) {
+            existingProduct.setProductName(productUpdate.getProductName());
+            existingProduct.setProductQuantity(productUpdate.getProductQuantity());
+            return true;
         }
         return false;
     }
+
 
     public Iterator<Product> findAll() {
         return productData.iterator();
