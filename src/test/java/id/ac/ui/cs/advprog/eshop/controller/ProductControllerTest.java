@@ -91,7 +91,7 @@ public class ProductControllerTest {
                         .contentType("application/x-www-form-urlencoded")
                         .param("productName", ""))
                 .andExpect(status().isOk())
-                .andExpect(view().name("editProduct"));
+                .andExpect(view().name("EditProduct"));
     }
 
     @Test
@@ -110,6 +110,6 @@ public class ProductControllerTest {
                         .contentType("application/x-www-form-urlencoded")
                         .param("productName", ""))
                 .andExpect(status().isOk())
-                .andExpect(view().name("createProduct"));
+                .andExpect(view().name("CreateProduct"));
     }
 }
