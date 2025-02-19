@@ -8,18 +8,13 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.json.AutoConfigureJsonTesters;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.json.JacksonTester;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @AutoConfigureJsonTesters
@@ -45,14 +40,12 @@ public class ProductControllerTest {
     @Test
     void testProductListPage() throws Exception{
         MockHttpServletResponse response = mvc.perform(get("/product/list")).andReturn().getResponse();
-
         assertEquals(HttpStatus.SC_OK, response.getStatus());
     }
 
     @Test
     void testCreateProductPage() throws Exception {
         MockHttpServletResponse response = mvc.perform(get("/product/create")).andReturn().getResponse();
-
         assertEquals(HttpStatus.SC_OK, response.getStatus());
     }
 
@@ -66,7 +59,6 @@ public class ProductControllerTest {
         Mockito.when(service.findById("eb558e9f-1c39-460e-8860-71af6af63bd6")).thenReturn(product);
 
         MockHttpServletResponse response = mvc.perform(get("/product/edit/eb558e9f-1c39-460e-8860-71af6af63bd6")).andReturn().getResponse();
-
         assertEquals(HttpStatus.SC_OK, response.getStatus());
     }
 
@@ -78,36 +70,46 @@ public class ProductControllerTest {
     }
 
     @Test
-    public void testEditProductPost() throws Exception {
+    public void testEditProductPostValid() throws Exception {
         Product product = new Product();
         product.setProductName("Sampo Cap Sabun");
         product.setProductQuantity(10);
 
         String json = jsonProduct.write(product).getJson();
-        String productId = "eb558e9f-1c39-460e-8860-71af6af63bd6";
 
-        MockHttpServletResponse response = mvc.perform(
-                post("/product/edit")
-                        .contentType("application/json")
-                        .content(json != null ? json : "")
-        ).andReturn().getResponse();
-
-        assertEquals(HttpStatus.SC_OK, response.getStatus());
+        mvc.perform(post("/product/edit")
+                        .contentType("application/x-www-form-urlencoded")
+                        .param("productName", "Sampo Cap Sabun")
+                        .param("productQuantity", "10"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/product/list"));
     }
 
     @Test
-    public void testCreateProductPost() throws Exception {
-        Product product = new Product();
-        product.setProductName("Sampo Cap Sabun");
-        product.setProductQuantity(10);
-
-        String json = jsonProduct.write(product).getJson();
-        MockHttpServletResponse response = mvc.perform(
-                post("/product/create")
-                        .contentType("application/json")
-                        .content(json != null ? json : "")
-        ).andReturn().getResponse();
-        assertEquals(HttpStatus.SC_OK, response.getStatus());
+    public void testEditProductPostInvalid() throws Exception {
+        mvc.perform(post("/product/edit")
+                        .contentType("application/x-www-form-urlencoded")
+                        .param("productName", ""))
+                .andExpect(status().isOk())
+                .andExpect(view().name("editProduct"));
     }
 
+    @Test
+    public void testCreateProductPostValid() throws Exception {
+        mvc.perform(post("/product/create")
+                        .contentType("application/x-www-form-urlencoded")
+                        .param("productName", "Sampo Cap Sabun")
+                        .param("productQuantity", "10"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("list"));
+    }
+
+    @Test
+    public void testCreateProductPostInvalid() throws Exception {
+        mvc.perform(post("/product/create")
+                        .contentType("application/x-www-form-urlencoded")
+                        .param("productName", ""))
+                .andExpect(status().isOk())
+                .andExpect(view().name("createProduct"));
+    }
 }
