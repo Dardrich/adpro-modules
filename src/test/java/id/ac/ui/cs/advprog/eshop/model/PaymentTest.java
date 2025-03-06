@@ -1,5 +1,6 @@
 package id.ac.ui.cs.advprog.eshop.model;
 
+import id.ac.ui.cs.advprog.eshop.enums.PaymentStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -22,7 +23,7 @@ public class PaymentTest {
         Payment payment = new Payment("id-dummy", "VOUCHER", this.paymentData);
         assertEquals("id-dummy", payment.getId());
         assertEquals("VOUCHER", payment.getMethod());
-        assertEquals("REJECTED", payment.getStatus());
+        assertEquals(PaymentStatus.REJECTED.getValue(), payment.getStatus());
         assertSame(this.paymentData, payment.getPaymentData());
     }
 
@@ -31,7 +32,7 @@ public class PaymentTest {
         Payment payment = new Payment("id-dummy", "VOUCHER", this.paymentData, "SUCCESS");
         assertEquals("id-dummy", payment.getId());
         assertEquals("VOUCHER", payment.getMethod());
-        assertEquals("SUCCESS", payment.getStatus());
+        assertEquals(PaymentStatus.SUCCESS.getValue(), payment.getStatus());
         assertSame(this.paymentData, payment.getPaymentData());
     }
 
