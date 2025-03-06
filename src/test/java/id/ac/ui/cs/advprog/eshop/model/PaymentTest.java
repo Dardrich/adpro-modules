@@ -11,7 +11,7 @@ public class PaymentTest {
     private Map<String, String> paymentData;
 
     void setUp(){
-        this.paymentData = new HashMap<>;
+        this.paymentData = new HashMap<>();
 
     }
 
